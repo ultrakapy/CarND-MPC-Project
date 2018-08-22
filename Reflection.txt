@@ -1,0 +1,38 @@
+The project review video was very helpful in better understanding MPC and my model is largely based on that review
+as well as the examples provided in the class.
+
+1. The Model:
+
+I used the Kinematic model described in class. That is, it is different from the dynamic models since it ignores
+various forces such as gravity and tire forces.
+
+x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
+y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
+psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
+v_[t+1] = v[t] + a[t] * dt
+cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
+epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
+
+[x,y,psi,v] is the state of the vehicle.
+Lf is a physical characteristic of the vehicle (which measures the distance between the front of the vehicle and its
+center of gravity).
+[delta, a] are the actuators, or control inputs, to the system.
+
+
+2. Timestep Length and Elapsed Duration (N & dt):
+
+I used N=10 and dt=0.1.
+I tried values of N > 10 but the car was going off the track and calculating the cost function was more computationally
+intensive, so after experimenting and also watching the project review video I settled on N=10 and dt=0.1.
+
+
+3. Polynomial Fitting and MPC Preprocessing:
+
+Before the MPC procedure, I shift the car's reference angle to 90 degrees.
+
+
+4. Model Predictive Control with Latency:
+
+I initally tried to set the car's speed to 100mph but it kept going off the track, but setting the speed to 40mph
+allowed the car to drive around the track just fine with the 100ms latency. I'm not sure if there was anything else
+I needed to do to handle the latency, but the car currently drives safely around the track.
