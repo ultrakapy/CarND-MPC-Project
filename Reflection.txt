@@ -33,6 +33,10 @@ Before the MPC procedure, I shift the car's reference angle to 90 degrees.
 
 4. Model Predictive Control with Latency:
 
-I initally tried to set the car's speed to 100mph but it kept going off the track, but setting the speed to 40mph
-allowed the car to drive around the track just fine with the 100ms latency. I'm not sure if there was anything else
-I needed to do to handle the latency, but the car currently drives safely around the track.
+The original kinematic equations depend upon the actuations from the previous timestep, but with a delay of 100ms
+(timestep interval) the actuations are applied another timestep later, so the actuations have been altered for this.
+I used previous actuations to account for latency in FG_eval class:
+if (t > 1) {
+  a0 = vars[a_start + t - 2];
+  delta0 = vars[delta_start + - 2];
+}
